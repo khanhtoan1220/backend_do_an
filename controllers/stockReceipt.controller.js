@@ -1,0 +1,38 @@
+const StockReceipt = require("../models/stockReceipt.model");
+const Ingredient = require("../models/ingredient.model");
+
+exports.post = async (req, res) => {
+  try {
+    const { ingredientId, quantityAdded, importPrice, createBy } = req.body;
+
+    // 1. Tạo phiếu nhập
+    const newReceipt = await StockReceipt.create({
+      ingredientId,
+      quantityAdded,
+      importPrice,
+      totalCost: quantityAdded * (importPrice || 0),
+      createBy,
+    });
+
+    // 2. Cập nhật tồn kho thực tế của nguyên liệu
+    // Dùng $inc để cộng dồn vào số lượng hiện có
+    await Ingredient.findByIdAndUpdate(ingredientId, {
+      $inc: { quantity: quantityAdded },
+    });
+
+    res.status(201).json(newReceipt);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+exports.getAll = async (req, res) => {
+  try {
+    const receipts = await StockReceipt.find()
+      .populate("ingredientId", "name unit")
+      .populate("createBy", "name");
+    res.json(receipts);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
