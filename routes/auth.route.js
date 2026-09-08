@@ -4,7 +4,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 
 authRouter.post("/register", async (req, res) => {
-  const fullname = req.body.fullname;
+  const name = req.body.name;
   const email = req.body.email;
   const pwd = req.body.password;
   try {
