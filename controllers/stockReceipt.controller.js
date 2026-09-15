@@ -5,7 +5,7 @@ exports.post = async (req, res) => {
   try {
     const { ingredientId, quantityAdded, importPrice, createBy } = req.body;
 
-    // 1. Tạo phiếu nhập
+    // tao phieu nhap
     const newReceipt = await StockReceipt.create({
       ingredientId,
       quantityAdded,
@@ -14,8 +14,8 @@ exports.post = async (req, res) => {
       createBy,
     });
 
-    // 2. Cập nhật tồn kho thực tế của nguyên liệu
-    // Dùng $inc để cộng dồn vào số lượng hiện có
+    // cap nhat ton kho
+
     await Ingredient.findByIdAndUpdate(ingredientId, {
       $inc: { quantity: quantityAdded },
     });

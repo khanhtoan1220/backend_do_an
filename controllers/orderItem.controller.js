@@ -27,11 +27,11 @@ exports.update = async (req, res) => {
     if (!orderItem)
       return res.status(404).json({ message: "OrderItem not found" });
 
-    // Cập nhật số lượng món ăn
+    //cap nhat so luong
     orderItem.quantity = quantity;
     await orderItem.save();
 
-    // TÍNH TOÁN LẠI TỔNG TIỀN CỦA ĐƠN HÀNG (ORDER)
+    //tinh lai tog tien order
     const allItems = await OrderItem.find({ orderId: orderItem.orderId });
     const newTotal = allItems.reduce(
       (sum, i) => sum + i.quantity * i.priceAtTime,
@@ -59,7 +59,7 @@ exports.delete = async (req, res) => {
     const orderId = orderItem.orderId;
     await OrderItem.findByIdAndDelete(req.params.id);
 
-    // TÍNH TOÁN LẠI TỔNG TIỀN CỦA ĐƠN HÀNG SAU KHI XÓA MÓN
+    // tinh lai tong tien sau khi xoa mon
     const allItems = await OrderItem.find({ orderId: orderId });
     const newTotal = allItems.reduce(
       (sum, i) => sum + i.quantity * i.priceAtTime,

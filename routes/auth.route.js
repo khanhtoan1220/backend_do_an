@@ -87,7 +87,7 @@ authRouter.put("/doimatkhau", async (req, res) => {
   try {
     const userId = req.session.user.id;
 
-    // 2. Tìm user trong database
+    // tim user trong batabase
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
@@ -95,7 +95,7 @@ authRouter.put("/doimatkhau", async (req, res) => {
       });
     }
 
-    // 3. Kiểm tra mật khẩu cũ có đúng không
+    // so sanh mat khau
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) {
       return res.status(400).json({
@@ -103,7 +103,7 @@ authRouter.put("/doimatkhau", async (req, res) => {
       });
     }
 
-    // 4. Mã hóa mật khẩu mới và lưu lại
+    // ma hoa va luu
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedNewPassword;
     await user.save();

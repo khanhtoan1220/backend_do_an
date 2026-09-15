@@ -11,8 +11,8 @@ const orderLogRouter = require("./orderLog.route");
 const recipeItemRouter = require("./recipeItem.route");
 const stockReceiptRouter = require("./stockReceipt.route");
 const authRouter = require("./auth.route");
+const fileRouter = require("./file.route");
 
-// Khai báo sử dụng các router trực tiếp (ĐÃ XÓA CHỮ WRAP BÊN NGOÀI)
 router.use("/category", categoryRouter);
 router.use("/ingredient", ingredientRouter);
 router.use("/menuitem", menuItemRouter);
@@ -22,5 +22,6 @@ router.use("/order-log", orderLogRouter);
 router.use("/recipe-item", recipeItemRouter);
 router.use("/stock-receipt", stockReceiptRouter);
 router.use("/auth", authRouter);
+router.use("/file", fileRouter);
 
 module.exports = router;
